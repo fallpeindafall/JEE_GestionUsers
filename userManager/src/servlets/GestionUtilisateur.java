@@ -1,0 +1,141 @@
+package servlets;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import beans.Utilisateur;
+
+/**
+ * Servlet implementation class GestionUtilisateur
+ */
+@WebServlet({"/users/add", "/users/list", "/users/delete", "/users/update"})
+public class GestionUtilisateur extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	
+	private static final ArrayList<Utilisateur> listeUtilisateurs = new ArrayList<Utilisateur>();
+	
+	private static final String VUE_AJOUT_UTILISATEUR = "/WEB-INF/ajouterUtilisateur.jsp";
+	private static final String VUE_LIST_UTILISATEUR = "/WEB-INF/listerUtilisateur.jsp";
+	private static final String VUE_UPDATE_UTILISATEUR = "/WEB-INF/update.jsp";
+
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		String path = request.getServletPath();
+		
+		if (path.equals("/users/add")) 
+		{
+			getServletContext().getRequestDispatcher(VUE_AJOUT_UTILISATEUR).forward(request, response);
+		}
+		else if (path.equals("/users/delete")) 
+		{
+			try 
+			{
+				int id = Integer.parseInt(request.getParameter("id"));
+				
+				for (Utilisateur utilisateur : listeUtilisateurs) 
+				{
+					if (utilisateur.getId() == id) 
+					{
+						listeUtilisateurs.remove(utilisateur);
+						break;
+					}
+				}
+				
+			} catch (Exception e) 
+			{
+			}
+			
+			request.setAttribute("utilisateurs", listeUtilisateurs);
+			getServletContext().getRequestDispatcher(VUE_LIST_UTILISATEUR).forward(request, response);
+		}
+		else if (path.equals("/users/update")) 
+		{
+			getServletContext().getRequestDispatcher(VUE_UPDATE_UTILISATEUR).forward(request, response);
+
+		}
+		else
+		{
+			request.setAttribute("utilisateurs", listeUtilisateurs);
+			getServletContext().getRequestDispatcher(VUE_LIST_UTILISATEUR).forward(request, response);
+		}
+		
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		String path = request.getServletPath();
+			if(path.equals("/users/add")) {
+				
+
+				String nom = request.getParameter("nom");
+				String prenom = request.getParameter("prenom");
+				String login = request.getParameter("login");
+				String password = request.getParameter("password");
+//				ArrayList<String> erreurs = new ArrayList<String>();
+
+				
+				if((nom.equals("")) | (prenom.equals("")) | (login.equals("")) | (password.equals(""))){
+//					Erreurs.add("Name not found!");
+					getServletContext().getRequestDispatcher(VUE_AJOUT_UTILISATEUR).forward(request, response);
+				
+
+				}
+				else {
+				
+					Utilisateur utilisateur = new Utilisateur(nom, prenom, login, password);
+					
+					listeUtilisateurs.add(utilisateur);
+					
+					response.sendRedirect("list");
+				}
+			}
+			else if (path.equals("/users/update")){
+					
+				 
+				int id = Integer.parseInt(request.getParameter("id"));
+				String nom = request.getParameter("nom");
+				String prenom = request.getParameter("prenom");
+				String login = request.getParameter("login");
+				String password = request.getParameter("password");
+				
+				if((nom.equals("")) | (prenom.equals("")) | (login.equals("")) | (password.equals(""))){
+					getServletContext().getRequestDispatcher(VUE_UPDATE_UTILISATEUR).forward(request, response);
+
+				}
+				else {
+				for (Utilisateur utilisateur : listeUtilisateurs) 
+				{
+					if (utilisateur.getId() == id) 
+					{
+						utilisateur.setNom(nom);
+						utilisateur.setPrenom(prenom);
+						utilisateur.setLogin(login);
+						utilisateur.setPassword(password);
+						
+						break;
+					}
+				}
+				}
+				
+				
+				
+				
+				response.sendRedirect("list");
+			}
+	}
+
+}

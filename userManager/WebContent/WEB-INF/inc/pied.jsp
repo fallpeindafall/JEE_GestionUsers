@@ -1,0 +1,1 @@
+<div id="pied">Copyright &copy; DIC3 2021</div>

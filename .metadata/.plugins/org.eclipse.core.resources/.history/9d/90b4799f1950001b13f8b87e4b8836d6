@@ -1,0 +1,54 @@
+<%@page import="beans.Utilisateur"%>
+<%@page import="java.util.ArrayList"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Gestion des utilisateurs</title>
+	<link rel="stylesheet" href="/userManager/css/design.css">
+</head>
+<body>
+	<%
+		ArrayList<Utilisateur> utilisateurs = (ArrayList<Utilisateur>) request.getAttribute("utilisateurs");
+	%>
+	<jsp:include page="inc/entete.jsp"/>
+	<jsp:include page="inc/menu.jsp"/>
+	<div id="corps">
+		<h1 id="titre-principal">Liste des utilisateurs</h1>
+		<%
+			if(utilisateurs.isEmpty())
+			{%>
+				<p>Aucun utilisateur n'a pour le moment été enregistré</p><%
+			}
+			else
+			{%>
+				<table>
+					<tr>
+						<th>ID</th>
+						<th>Nom</th>
+						<th>Prénom</th>
+						<th>Login</th>
+						<th>Password</th>
+						<th colspan="2">Actions</th>
+					</tr><%
+				for(Utilisateur utilisateur : utilisateurs)
+				{%>
+					<tr>
+						<td><%= utilisateur.getId() %></td>
+						<td><%= utilisateur.getNom() %></td>
+						<td><%= utilisateur.getPrenom() %></td>
+						<td><%= utilisateur.getLogin() %></td>
+						<td><%= utilisateur.getPassword() %></td>
+						<td><a href="update?id=<%= utilisateur.getId() %>">Modifier</td>
+						<td><a href="update?id=<%= utilisateur.getId() %>">Supprimer</td>
+					</tr><%
+				}%>
+				</table><%
+			}
+		%>
+	</div>
+	<jsp:include page="inc/pied.jsp"/>
+</body>
+</html>

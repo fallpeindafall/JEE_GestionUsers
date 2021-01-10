@@ -1,0 +1,18 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<jsp:include page="inc/entete.jsp"/>
+	<jsp:include page="inc/menu.jsp"/>
+	<div id="corps">
+		<h1>Accueil</h1>
+		<p>Bienvenue dans notre application. Consulter le menu pour décider de ce qu'il y'a lieu de faire.
+	</div>
+	<jsp:include page="inc/pied.jsp"/>
+</body>
+</html>

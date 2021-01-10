@@ -1,0 +1,25 @@
+package servlets;
+
+public class Utilisateur 
+{
+	private static int lastId = 0;
+	
+	private int id;
+	private String nom, prenom, login, password;
+	
+	public Utilisateur() 
+	{
+		this.id = ++lastId;
+	}
+
+	public Utilisateur(String nom, String prenom, String login, String password) 
+	{
+		this.id = ++lastId;
+		this.nom = nom;
+		this.prenom = prenom;
+		this.login = login;
+		this.password = password;
+	}
+	
+	
+}

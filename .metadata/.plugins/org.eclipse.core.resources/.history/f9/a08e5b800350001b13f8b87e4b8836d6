@@ -1,0 +1,28 @@
+package sn.esp.servlets;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class Accueil extends HttpServlet
+{
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		PrintWriter out = response.getWriter();
+		out.print("<!DOCTYPE html>");
+		out.print("<html>");
+		out.print("<head>");
+		out.print("<title>Accueil</title>");
+		out.print("</head>");
+		out.print("<body>");
+		out.print("<h1>Page d'accueil</h1>");
+		out.print("<p>Bienvenue dans notre application</p>");
+		out.print("</body>");
+		out.print("</html>");
+	}
+}
